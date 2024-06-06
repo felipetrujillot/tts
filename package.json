@@ -1,0 +1,48 @@
+{
+  "name": "ghost",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --port 4000",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.13",
+    "@tiptap/extension-highlight": "^2.3.1",
+    "@tiptap/extension-link": "^2.3.1",
+    "@tiptap/extension-typography": "^2.3.1",
+    "@tiptap/pm": "^2.3.1",
+    "@tiptap/starter-kit": "^2.3.1",
+    "@tiptap/vue-3": "^2.3.1",
+    "@trpc/server": "^10.45.2",
+    "@vueuse/core": "^10.9.0",
+    "bcrypt": "^5.1.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.29.5",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-vue-next": "^0.376.0",
+    "mysql2": "^3.9.7",
+    "nuxt": "^3.11.1",
+    "openai": "^4.44.0",
+    "puppeteer": "^22.7.1",
+    "radix-vue": "^1.8.1",
+    "shadcn-nuxt": "^0.10.4",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "trpc-nuxt": "^0.10.21",
+    "vaul-vue": "^0.1.2",
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "zod": "^3.23.6"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
+    "typescript": "^5.4.5"
+  }
+}
