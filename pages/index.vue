@@ -20,7 +20,7 @@ const datos = ref({
 
 const universidades = ref([
   {
-    nombre: 'Química y Farmacia',
+    carrera: 'Química y Farmacia',
     universidad: 'U. de Chile',
     ultimo_seleccionado: 774.8,
     ultimo_matriculado: 773.8,
@@ -36,7 +36,7 @@ const universidades = ref([
   },
 
   {
-    nombre: 'Química y Farmacia',
+    carrera: 'Química y Farmacia',
     universidad: 'Universidad San Sebastian',
     ultimo_seleccionado: 0,
     ultimo_matriculado: 0,
@@ -51,7 +51,7 @@ const universidades = ref([
     },
   },
   {
-    nombre: 'Química y Farmacia',
+    carrera: 'Química y Farmacia',
     universidad: 'U. Católica',
     ultimo_seleccionado: 0,
     ultimo_matriculado: 882.25,
@@ -62,6 +62,22 @@ const universidades = ref([
       mate_1: 20,
       mate_2: 0,
       ciencias: 25,
+      historia: 0,
+    },
+  },
+
+  {
+    carrera: 'Ingeniería Civil en Computación',
+    universidad: 'U. de Chile',
+    ultimo_seleccionado: 0,
+    ultimo_matriculado: 828.6,
+    ponderaciones: {
+      ranking: 25,
+      nem: 10,
+      lectora: 10,
+      mate_1: 20,
+      mate_2: 20,
+      ciencias: 15,
       historia: 0,
     },
   },
@@ -136,8 +152,9 @@ const tabs = ref<'datos' | 'carreras'>('datos')
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Universidad</TableHead>
             <TableHead>Carrera</TableHead>
+            <TableHead>Resultado</TableHead>
+            <TableHead>Último Matriculado</TableHead>
             <TableHead>NEM</TableHead>
             <TableHead>RANKING</TableHead>
             <TableHead>LECTORA</TableHead>
@@ -145,17 +162,17 @@ const tabs = ref<'datos' | 'carreras'>('datos')
             <TableHead>MATE 2</TableHead>
             <TableHead>CIENCIAS</TableHead>
             <TableHead>HISTORIA</TableHead>
-            <TableHead>Último Seleccionado</TableHead>
-            <TableHead>Último Matriculado</TableHead>
-            <TableHead>Resultado</TableHead>
-            <TableHead></TableHead>
+            <!-- <TableHead>Último Seleccionado</TableHead> -->
           </TableRow>
         </TableHeader>
 
         <TableBody>
           <TableRow v-for="(c, k) in universidades" :key="k">
-            <TableCell>{{ c.universidad }}</TableCell>
-            <TableCell>{{ c.nombre }}</TableCell>
+            <TableCell>{{ c.carrera }} - {{ c.universidad }}</TableCell>
+            <TableCell class="font-bold">{{
+              calcularResultado(c.ponderaciones)
+            }}</TableCell>
+            <TableCell class="font-bold">{{ c.ultimo_matriculado }}</TableCell>
             <TableCell>{{ c.ponderaciones.nem }}%</TableCell>
             <TableCell>{{ c.ponderaciones.ranking }}%</TableCell>
             <TableCell>{{ c.ponderaciones.lectora }}%</TableCell>
@@ -163,9 +180,7 @@ const tabs = ref<'datos' | 'carreras'>('datos')
             <TableCell>{{ c.ponderaciones.mate_2 }}%</TableCell>
             <TableCell>{{ c.ponderaciones.ciencias }}%</TableCell>
             <TableCell>{{ c.ponderaciones.historia }}%</TableCell>
-            <TableCell>{{ c.ultimo_seleccionado }}</TableCell>
-            <TableCell>{{ c.ultimo_matriculado }}</TableCell>
-            <TableCell>{{ calcularResultado(c.ponderaciones) }}</TableCell>
+            <!--  <TableCell>{{ c.ultimo_seleccionado }}</TableCell> -->
           </TableRow>
         </TableBody>
       </Table>
@@ -183,14 +198,14 @@ const tabs = ref<'datos' | 'carreras'>('datos')
                 :key="k"
                 :value="`${k}`"
               >
-                {{ c.nombre }}
+                {{ c.carrera }}
               </SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>
 
         <div v-if="selectedUniversidad">
-          {{ selectedUniversidad.nombre }}
+          {{ selectedUniversidad.carrera }}
         </div>
       </div> -->
     </Card>
