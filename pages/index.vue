@@ -54,7 +54,7 @@ const universidades = ref([
     carrera: 'Química y Farmacia',
     universidad: 'U. Católica',
     ultimo_seleccionado: 0,
-    ultimo_matriculado: 882.25,
+    ultimo_matriculado: 888.25,
     ponderaciones: {
       ranking: 20,
       nem: 20,
@@ -62,6 +62,22 @@ const universidades = ref([
       mate_1: 20,
       mate_2: 0,
       ciencias: 25,
+      historia: 0,
+    },
+  },
+
+  {
+    carrera: 'Química y Farmacia',
+    universidad: 'U. Católica',
+    ultimo_seleccionado: 0,
+    ultimo_matriculado: 756.15,
+    ponderaciones: {
+      ranking: 35,
+      nem: 15,
+      lectora: 15,
+      mate_1: 15,
+      mate_2: 0,
+      ciencias: 20,
       historia: 0,
     },
   },
@@ -172,7 +188,9 @@ const tabs = ref<'datos' | 'carreras'>('datos')
             <TableCell class="font-bold">{{
               calcularResultado(c.ponderaciones)
             }}</TableCell>
-            <TableCell class="font-bold">{{ c.ultimo_matriculado }}</TableCell>
+            <TableCell class="font-bold">{{
+              c.ultimo_matriculado === 0 ? '-' : c.ultimo_matriculado
+            }}</TableCell>
             <TableCell>{{ c.ponderaciones.nem }}%</TableCell>
             <TableCell>{{ c.ponderaciones.ranking }}%</TableCell>
             <TableCell>{{ c.ponderaciones.lectora }}%</TableCell>
