@@ -1,241 +1,229 @@
 <script setup lang="ts">
-const { $trpc, $router } = useNuxtApp()
+/**
+ *
+ */
+documentTitle('Proyecto')
 definePageMeta({
-  middleware: 'rootauth',
+  layout: 'new-layout',
 })
+
+const datos = ref({
+  ranking: 819,
+  nem: 819,
+  lectora: 700,
+  mate_1: 800,
+  mate_2: 800,
+  ciencias: 750,
+  historia: 0,
+  universidad: '',
+})
+
+const universidades = ref([
+  {
+    nombre: 'Química y Farmacia',
+    universidad: 'U. de Chile',
+    ultimo_seleccionado: 774.8,
+    ultimo_matriculado: 773.8,
+    ponderaciones: {
+      ranking: 20,
+      nem: 10,
+      lectora: 10,
+      mate_1: 20,
+      mate_2: 10,
+      ciencias: 30,
+      historia: 0,
+    },
+  },
+
+  {
+    nombre: 'Química y Farmacia',
+    universidad: 'Universidad San Sebastian',
+    ultimo_seleccionado: 0,
+    ultimo_matriculado: 0,
+    ponderaciones: {
+      ranking: 10,
+      nem: 10,
+      lectora: 20,
+      mate_1: 50,
+      mate_2: 0,
+      ciencias: 10,
+      historia: 0,
+    },
+  },
+  {
+    nombre: 'Química y Farmacia',
+    universidad: 'U. Católica',
+    ultimo_seleccionado: 0,
+    ultimo_matriculado: 882.25,
+    ponderaciones: {
+      ranking: 20,
+      nem: 20,
+      lectora: 15,
+      mate_1: 20,
+      mate_2: 0,
+      ciencias: 25,
+      historia: 0,
+    },
+  },
+])
+
 /**
  *
  */
-const formData = ref({
-  email: '',
-  password: '',
+const selectedUniversidad = computed(() => {
+  if (datos.value.universidad.length > 0) {
+    return universidades.value[parseInt(datos.value.universidad)]
+  }
+  return false
 })
 
-/**
- *
- */
-const newLogin = async () => {
-  if (
-    isEmail(formData.value.email) == false ||
-    formData.value.email.length == 0
-  )
-    return toast('warning', 'Debes ingresar tu email')
-  if (formData.value.password.length == 0)
-    return toast('warning', 'Debes ingresar una contraseña')
-
-  const data = {
-    email: formData.value.email,
-    password: formData.value.password,
-  }
-
-  const res = await $trpc.user.loginApi.mutate(data)
-
-  const maxAge = 3600 * 24 * 365
-
-  if (res.status === 'ok') {
-    const token = useCookie('token', {
-      maxAge,
-    })
-    token.value = res.token
-
-    const name = useCookie('name', {
-      maxAge,
-    })
-
-    name.value = res.usuario_db.name
-
-    if (res.usuario_db.role === 0) {
-      $router.push('/admin')
-      return
-    }
-
-    if (res.usuario_db.role === 10) {
-      $router.push('/projects')
-      return
-    }
-  }
-  return toast('warning', res.data)
+type Ponderaciones = {
+  ranking: number
+  nem: number
+  lectora: number
+  mate_1: number
+  mate_2: number
+  ciencias: number
+  historia: number
 }
+/**
+ *
+ */
+const calcularResultado = (ponderaciones: Ponderaciones) => {
+  const { ranking, nem, lectora, mate_1, mate_2, ciencias, historia } =
+    datos.value
+
+  const rankingTotal = (ranking * ponderaciones.ranking) / 100
+  const nemTotal = (nem * ponderaciones.nem) / 100
+  const lectoraTotal = (lectora * ponderaciones.lectora) / 100
+  const mate1 = (mate_1 * ponderaciones.mate_1) / 100
+  const mate2 = (mate_2 * ponderaciones.mate_2) / 100
+  const cienciasTotal = (ciencias * ponderaciones.ciencias) / 100
+  const historiaTotal = (historia * ponderaciones.historia) / 100
+
+  const resultado =
+    rankingTotal +
+    nemTotal +
+    lectoraTotal +
+    mate1 +
+    mate2 +
+    cienciasTotal +
+    historiaTotal
+
+  return resultado.toFixed(2)
+}
+const tabs = ref<'datos' | 'carreras'>('datos')
 </script>
 
 <template>
-  <div
-    class="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0"
-  >
-    <a
-      href="/examples/authentication"
-      class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 absolute right-4 top-4 md:right-8 md:top-8"
-    >
-      Todo
-    </a>
-    <div
-      class="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex"
-    >
-      <div class="absolute inset-0 bg-zinc-900">
-        <img
-          class="absolute top-0 w-full max-h-screen left-0"
-          src="/midjourney.png"
-          style="opacity: 0.7"
-        />
-      </div>
-      <div class="relative z-20 flex items-center text-lg font-medium">
-        <!-- <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          class="mr-2 h-6 w-6"
-        >
-          <path
-            d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"
-          ></path>
-        </svg> -->
-        TITLE
-      </div>
-      <div class="relative z-20 mt-auto">
-        <blockquote class="space-y-2">
-          <p class="text-lg">
-            “This library has saved me countless hours of work and helped me
-            deliver stunning designs to my clients faster than ever before.”
-          </p>
-          <footer class="text-sm">Sofia Davis</footer>
-        </blockquote>
-      </div>
+  <div class="w-full ml-auto mr-auto space-y-4">
+    <div>
+      <h1 class="text-2xl font-bold">Calculadora Carreras</h1>
+      <p class="text-muted-foreground">Calculadora Ponderaciones</p>
     </div>
-    <div class="lg:p-8">
-      <div
-        class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]"
-      >
-        <div class="flex flex-col space-y-2 text-center">
-          <h1 class="text-2xl font-semibold tracking-tight">Login</h1>
-          <p class="text-sm text-muted-foreground">
-            Ingresa tu email para iniciar sesión
-          </p>
-        </div>
-        <div class="grid gap-6">
-          <form>
-            <div class="grid gap-2">
-              <div class="grid gap-1">
-                <Input
-                  v-model="formData.email"
-                  placeholder="name@example.com"
-                  type="email"
-                  auto-capitalize="none"
-                  auto-complete="email"
-                  auto-correct="off"
-                />
-              </div>
 
-              <div class="grid gap-1">
-                <Input
-                  v-model="formData.password"
-                  placeholder="******"
-                  type="password"
-                  auto-capitalize="none"
-                  auto-complete="email"
-                  auto-correct="off"
-                />
-              </div>
-              <Button @click.prevent="newLogin">
-                <!---->
-                Iniciar Sesión
-              </Button>
-            </div>
-          </form>
-          <div class="relative">
-            <div class="absolute inset-0 flex items-center">
-              <span class="w-full border-t"></span>
-            </div>
-            <div class="relative flex justify-center text-xs uppercase">
-              <span
-                class="bg-background px-2 text-muted-foreground cursor-pointer"
+    <Tabs default-value="resumen" v-model="tabs">
+      <TabsList>
+        <TabsTrigger value="datos"> Mis Datos </TabsTrigger>
+        <TabsTrigger value="carreras"> Carreras </TabsTrigger>
+      </TabsList>
+      <!--   <TabsContent value="resumen"> </TabsContent>
+        <TabsContent value="chat"> </TabsContent> -->
+    </Tabs>
+
+    <Card v-if="tabs === 'carreras'">
+      <h1 class="text-2xl font-bold">Carreras</h1>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Universidad</TableHead>
+            <TableHead>Carrera</TableHead>
+            <TableHead>NEM</TableHead>
+            <TableHead>RANKING</TableHead>
+            <TableHead>LECTORA</TableHead>
+            <TableHead>MATE 1</TableHead>
+            <TableHead>MATE 2</TableHead>
+            <TableHead>CIENCIAS</TableHead>
+            <TableHead>HISTORIA</TableHead>
+            <TableHead>Último Seleccionado</TableHead>
+            <TableHead>Último Matriculado</TableHead>
+            <TableHead>Resultado</TableHead>
+            <TableHead></TableHead>
+          </TableRow>
+        </TableHeader>
+
+        <TableBody>
+          <TableRow v-for="(c, k) in universidades" :key="k">
+            <TableCell>{{ c.universidad }}</TableCell>
+            <TableCell>{{ c.nombre }}</TableCell>
+            <TableCell>{{ c.ponderaciones.nem }}%</TableCell>
+            <TableCell>{{ c.ponderaciones.ranking }}%</TableCell>
+            <TableCell>{{ c.ponderaciones.lectora }}%</TableCell>
+            <TableCell>{{ c.ponderaciones.mate_1 }}%</TableCell>
+            <TableCell>{{ c.ponderaciones.mate_2 }}%</TableCell>
+            <TableCell>{{ c.ponderaciones.ciencias }}%</TableCell>
+            <TableCell>{{ c.ponderaciones.historia }}%</TableCell>
+            <TableCell>{{ c.ultimo_seleccionado }}</TableCell>
+            <TableCell>{{ c.ultimo_matriculado }}</TableCell>
+            <TableCell>{{ calcularResultado(c.ponderaciones) }}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+      <!-- <div>
+        <Label>Carrera</Label>
+        <Select v-model="datos.universidad">
+          <SelectTrigger class="rounded-full">
+            <SelectValue placeholder="Selecciona una Universidad" />
+          </SelectTrigger>
+          <SelectContent class="rounded-2xl">
+            <SelectGroup>
+              <SelectLabel>Universidades</SelectLabel>
+              <SelectItem
+                v-for="(c, k) in universidades"
+                :key="k"
+                :value="`${k}`"
               >
-                Olvidé mi contraseña
-              </span>
-            </div>
-          </div>
+                {{ c.nombre }}
+              </SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+
+        <div v-if="selectedUniversidad">
+          {{ selectedUniversidad.nombre }}
         </div>
-        <p class="px-8 text-center text-sm text-muted-foreground">
-          By clicking continue, you agree to our
-          <a
-            href="/terms"
-            class="underline underline-offset-4 hover:text-primary"
-          >
-            Terms of Service
-          </a>
-          and
-          <a
-            href="/privacy"
-            class="underline underline-offset-4 hover:text-primary"
-          >
-            Privacy Policy
-          </a>
-          .
-        </p>
+      </div> -->
+    </Card>
+    <Card v-if="tabs === 'datos'">
+      <h1 class="text-2xl font-bold">Mis Datos</h1>
+      <div>
+        <Label>NEM</Label>
+        <Input placeholder="NEM" v-model.number="datos.nem" />
       </div>
-    </div>
-  </div>
-  <!--  <ImageThumbnail /> -->
-
-  <div class="relative min-h-screen lg:grid-cols-2 lg:px-0 py-16">
-    <div class="container h-full">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-        <Card class="p-0 relative h-full pb-10 pt-24">
-          <img
-            class="absolute rounded-md h-full w-full top-0 left-0"
-            src="https://storage.googleapis.com/hubdesign-repositorio/qa/public/uploads/1695236954129-pexelsphoto3183183.jpeg"
-            style="opacity: 0.7"
-          />
-          <div class="relative">
-            <div class="m-10 mb-16 space-y-6">
-              <h1 class="font-bold text-3xl">Lorem Ipsum</h1>
-              <p class="text-lg">
-                “This library has saved me countless hours of work and helped me
-                deliver stunning designs to my clients faster than ever before.”
-              </p>
-            </div>
-          </div>
-        </Card>
-
-        <Card class="p-0 relative h-full pb-10 pt-24">
-          <img
-            class="absolute rounded-md h-full w-full top-0 left-0"
-            src="https://storage.googleapis.com/hubdesign-repositorio/qa/public/uploads/1695236972908-1683129310565.jpg"
-            style="opacity: 0.4"
-          />
-          <div class="relative">
-            <div class="m-10 mb-16 space-y-6">
-              <h1 class="font-bold text-3xl">Lorem Ipsum</h1>
-              <p class="text-lg">
-                “This library has saved me countless hours of work and helped me
-                deliver stunning designs to my clients faster than ever before.”
-              </p>
-            </div>
-          </div>
-        </Card>
-
-        <Card class="p-0 relative h-full pb-10 pt-24">
-          <img
-            class="absolute rounded-md h-full w-full top-0 left-0"
-            src="/midjourney.png"
-            style="opacity: 0.7"
-          />
-          <div class="relative">
-            <div class="m-10 mb-16 space-y-6">
-              <h1 class="font-bold text-3xl">Lorem Ipsum</h1>
-              <p class="text-lg">
-                “This library has saved me countless hours of work and helped me
-                deliver stunning designs to my clients faster than ever before.”
-              </p>
-            </div>
-          </div>
-        </Card>
+      <div>
+        <Label>RANKING</Label>
+        <Input placeholder="RANKING" v-model.number="datos.ranking" />
       </div>
-    </div>
-  </div>
 
-  <LandingCarousel />
+      <div>
+        <Label>LECTORA</Label>
+        <Input placeholder="LECTORA" v-model.number="datos.lectora" />
+      </div>
+
+      <div>
+        <Label>MATEMÁTICAS 1</Label>
+        <Input placeholder="MATEMÁTICAS 1" v-model.number="datos.mate_1" />
+      </div>
+
+      <div>
+        <Label>MATEMÁTICAS 2</Label>
+        <Input placeholder="MATEMÁTICAS 2" v-model.number="datos.mate_2" />
+      </div>
+
+      <div>
+        <Label>CIENCIAS</Label>
+        <Input placeholder="CIENCIAS" v-model.number="datos.ciencias" />
+      </div>
+    </Card>
+  </div>
 </template>
