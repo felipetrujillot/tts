@@ -68,7 +68,7 @@ const universidades = ref([
 
   {
     carrera: 'Química y Farmacia',
-    universidad: 'U. Católica',
+    universidad: 'UACH',
     ultimo_seleccionado: 0,
     ultimo_matriculado: 756.15,
     ponderaciones: {
