@@ -142,7 +142,7 @@ const calcularResultado = (ponderaciones: Ponderaciones) => {
     cienciasTotal +
     historiaTotal
 
-  return resultado.toFixed(2)
+  return parseFloat(resultado.toFixed(2))
 }
 const tabs = ref<'datos' | 'carreras'>('datos')
 </script>
@@ -185,9 +185,26 @@ const tabs = ref<'datos' | 'carreras'>('datos')
         <TableBody>
           <TableRow v-for="(c, k) in universidades" :key="k">
             <TableCell>{{ c.carrera }} - {{ c.universidad }}</TableCell>
-            <TableCell class="font-bold">{{
-              calcularResultado(c.ponderaciones)
-            }}</TableCell>
+            <TableCell
+              class="font-bold"
+              :class="{
+                'text-yellow-500': c.ultimo_matriculado === 0,
+                'text-green-500':
+                  calcularResultado(c.ponderaciones) > c.ultimo_matriculado &&
+                  c.ultimo_matriculado &&
+                  c.ultimo_matriculado > 0
+                    ? true
+                    : false,
+
+                'text-red-500':
+                  calcularResultado(c.ponderaciones) < c.ultimo_matriculado &&
+                  c.ultimo_matriculado &&
+                  c.ultimo_matriculado > 0
+                    ? true
+                    : false,
+              }"
+              >{{ calcularResultado(c.ponderaciones) }}</TableCell
+            >
             <TableCell class="font-bold">{{
               c.ultimo_matriculado === 0 ? '-' : c.ultimo_matriculado
             }}</TableCell>
