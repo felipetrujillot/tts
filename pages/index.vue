@@ -34,6 +34,21 @@ const universidades = [
       historia: 0,
     },
   },
+  {
+    carrera: 'Química y Farmacia',
+    universidad: 'Universidad Los Lagos',
+    ultimo_seleccionado: 0,
+    ultimo_matriculado: 495.8,
+    ponderaciones: {
+      ranking: 40,
+      nem: 10,
+      lectora: 20,
+      mate_1: 20,
+      mate_2: 0,
+      ciencias: 10,
+      historia: 0,
+    },
+  },
 
   {
     carrera: 'Química y Farmacia',
