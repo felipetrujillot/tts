@@ -39,7 +39,7 @@ const universidades = [
     carrera: 'Química y Farmacia',
     universidad: 'Universidad San Sebastian',
     ultimo_seleccionado: 0,
-    ultimo_matriculado: 0,
+    ultimo_matriculado: 587,
     ponderaciones: {
       ranking: 10,
       nem: 10,
