@@ -45,14 +45,14 @@ const logout = () => {
           >
             Notas
           </NuxtLink> -->
-
+          <!-- 
           <NuxtLink
             to="/projects"
             :class="route.path === `/projects` ? '' : 'text-muted-foreground'"
             class="text-sm font-medium transition-colors hover:text-primary"
           >
             Proyectos
-          </NuxtLink>
+          </NuxtLink> -->
         </nav>
 
         <div class="ml-auto flex items-center space-x-4">

@@ -8,8 +8,8 @@ definePageMeta({
 })
 
 const datos = ref({
-  ranking: 819,
-  nem: 819,
+  ranking: 868,
+  nem: 844,
   lectora: 700,
   mate_1: 800,
   mate_2: 800,
@@ -18,7 +18,7 @@ const datos = ref({
   universidad: '',
 })
 
-const universidades = ref([
+const universidades = [
   {
     carrera: 'Química y Farmacia',
     universidad: 'U. de Chile',
@@ -78,6 +78,22 @@ const universidades = ref([
       mate_1: 15,
       mate_2: 0,
       ciencias: 20,
+      historia: 0,
+    },
+  },
+
+  {
+    carrera: 'Bioquímica',
+    universidad: 'U. de Chile',
+    ultimo_seleccionado: 0,
+    ultimo_matriculado: 791.2,
+    ponderaciones: {
+      ranking: 20,
+      nem: 10,
+      lectora: 10,
+      mate_1: 20,
+      mate_2: 0,
+      ciencias: 30,
       historia: 0,
     },
   },
@@ -144,7 +160,7 @@ const universidades = ref([
     },
   },
   {
-    carrera: 'Ingeniería Civil en Computación',
+    carrera: 'Ingeniería y Ciencias - Plan Común',
     universidad: 'U. de Chile',
     ultimo_seleccionado: 0,
     ultimo_matriculado: 828.6,
@@ -158,17 +174,7 @@ const universidades = ref([
       historia: 0,
     },
   },
-])
-
-/**
- *
- */
-const selectedUniversidad = computed(() => {
-  if (datos.value.universidad.length > 0) {
-    return universidades.value[parseInt(datos.value.universidad)]
-  }
-  return false
-})
+]
 
 type Ponderaciones = {
   ranking: number
