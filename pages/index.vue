@@ -52,6 +52,22 @@ const universidades = [
 
   {
     carrera: 'Química y Farmacia',
+    universidad: 'Universidad Santiago de Chile',
+    ultimo_seleccionado: 0,
+    ultimo_matriculado: 827.2,
+    ponderaciones: {
+      ranking: 40,
+      nem: 10,
+      lectora: 15,
+      mate_1: 25,
+      mate_2: 0,
+      ciencias: 10,
+      historia: 0,
+    },
+  },
+
+  {
+    carrera: 'Química y Farmacia',
     universidad: 'Universidad San Sebastian',
     ultimo_seleccionado: 0,
     ultimo_matriculado: 587,
