@@ -78,7 +78,7 @@ const universidades = [
       mate_1: 30,
       mate_2: 0,
       ciencias: 10,
-      historia: 10,
+      historia: 0,
     },
   },
   {
