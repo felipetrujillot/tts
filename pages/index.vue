@@ -224,7 +224,7 @@ const universidades = [
   {
     carrera: 'Veterinaria',
     universidad: 'U. San Sebastian',
-    ultimo_seleccionado: 0,
+    ultimo_seleccionado: 648,
     ultimo_matriculado: 0,
     ponderaciones: {
       ranking: 40,
